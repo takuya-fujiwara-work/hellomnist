@@ -14,6 +14,9 @@ window.addEventListener("load", function(){
     can.addEventListener("mouseup", drawEnd, false);
     can.addEventListener("mouseout", drawEnd, false);
     if(window.TouchEvent){
+        can.addEventListener("touchstart", preventScroll);
+        can.addEventListener("touchmove", preventScroll);
+        can.addEventListener("touchend", preventScroll);
         can.addEventListener("touchstart", drawStart);
         can.addEventListener("touchmove", draw);
         can.addEventListener("touchend", drawEnd);
@@ -25,6 +28,10 @@ function clear(){
     var ctx = can.getContext('2d');
     ctx.fillStyle = "rgba(255,255,255,1)";
     ctx.fillRect(0,0,can.width,can.height);
+}
+
+function preventScroll(e){
+    e.preventDefault();
 }
 
 function drawStart(e){
