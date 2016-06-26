@@ -17,8 +17,8 @@ window.addEventListener("load", function(){
         can.addEventListener("touchstart", preventScroll);
         can.addEventListener("touchmove", preventScroll);
         can.addEventListener("touchend", preventScroll);
-        can.addEventListener("touchstart", drawStart);
-        can.addEventListener("touchmove", draw);
+        can.addEventListener("touchstart", drawTouchStart);
+        can.addEventListener("touchmove", drawTouch);
         can.addEventListener("touchend", drawEnd);
     }
 }, true);
@@ -45,12 +45,25 @@ function drawStart(e){
     oldY = e.clientY - rect.top;
 }
 
+function drawTouchStart(e){
+    if(timeoutId !== null){
+        clearTimeout(timeoutId);
+        timeoutId = null;
+    }
+    drawFlag = true;
+    var rect = e.target.getBoundingClientRect();
+    oldX = e.touches[0].clientX - rect.left;
+    oldY = e.touches[0].clientY - rect.top;
+}
+
+
 function drawEnd(){
     if(timeoutId === null){
         timeoutId = setTimeout(post, 1000);
     }
     drawFlag = false;
 }
+
 function draw(e){
     if (!drawFlag) return;
     var rect = e.target.getBoundingClientRect();
@@ -58,6 +71,20 @@ function draw(e){
     var y = e.clientY - rect.top;
     var can = document.getElementById("canvas");
     var context = can.getContext("2d");
+    _draw(context, x, y);
+}
+
+function drawTouch(e){
+    if (!drawFlag) return;
+    var rect = e.target.getBoundingClientRect();
+    var x = e.touches[0].clientX - rect.left;
+    var y = e.touches[0].clientY - rect.top;
+    var can = document.getElementById("canvas");
+    var context = can.getContext("2d");
+    _draw(context, x, y);
+}
+
+function _draw(context, x, y){
     context.strokeStyle = "rgba(0,0,0,1)";
     context.lineWidth = 30;
     context.lineCap = 'round';
