@@ -10,28 +10,14 @@ window.onload = function(){
 window.addEventListener("load", function(){
     var can = document.getElementById("canvas");
     can.addEventListener("mousemove", draw, true);
-    can.addEventListener("mousedown", function(e){
-        if(timeoutId !== null){
-            clearTimeout(timeoutId);
-            timeoutId = null;
-        }
-        drawFlag = true;
-        var rect = e.target.getBoundingClientRect();
-        oldX = e.clientX - rect.left;
-        oldY = e.clientY - rect.top;
-    }, false);
-    can.addEventListener("mouseup", function(){
-        if(timeoutId === null){
-            timeoutId = setTimeout(post, 1000);
-        }
-        drawFlag = false;
-    }, false);
-    can.addEventListener("mouseout", function(){
-        if(timeoutId === null){
-            timeoutId = setTimeout(post, 1000);
-        }
-        drawFlag = false;
-    }, false);
+    can.addEventListener("mousedown", drawStart, false);
+    can.addEventListener("mouseup", drawEnd, false);
+    can.addEventListener("mouseout", drawEnd, false);
+    if(window.TouchEvent){
+        can.addEventListener("touchstart", drawStart);
+        can.addEventListener("touchmove", draw);
+        can.addEventListener("touchend", drawEnd);
+    }
 }, true);
 
 function clear(){
@@ -41,6 +27,23 @@ function clear(){
     ctx.fillRect(0,0,can.width,can.height);
 }
 
+function drawStart(){
+    if(timeoutId !== null){
+        clearTimeout(timeoutId);
+        timeoutId = null;
+    }
+    drawFlag = true;
+    var rect = e.target.getBoundingClientRect();
+    oldX = e.clientX - rect.left;
+    oldY = e.clientY - rect.top;
+}
+
+function drawEnd(){
+    if(timeoutId === null){
+        timeoutId = setTimeout(post, 1000);
+    }
+    drawFlag = false;
+}
 function draw(e){
     if (!drawFlag) return;
     var rect = e.target.getBoundingClientRect();
