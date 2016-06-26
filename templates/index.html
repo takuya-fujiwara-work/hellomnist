@@ -1,0 +1,32 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>This is sample page.</title>
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+<script type="text/javascript" src="{{url_for('static', filename='draw.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='jquery.min.js')}}"></script>
+</head>
+<body>
+    <div>Please draw a digit.</div>
+    <canvas class="cv" id="canvas" width="448" height="448">
+    このブラウザはCanvasに対応していません。
+    </canvas>
+    <hr>
+    <div>
+        <p>input:</p>
+        <canvas class="tmb value" id="cantmb"  width="28" height="28"></canvas>
+    </div>
+    <div>
+        <p>recognition result:</p>
+        <div class="value" id="result"></div>
+    </div>
+    <div>
+        <p>similarity:</p>
+        <div class="value" id="similarity1"></div>
+        <div class="value" id="similarity2"></div>
+        <div class="value" id="similarity3"></div>
+    </div>
+</body>
+</html>

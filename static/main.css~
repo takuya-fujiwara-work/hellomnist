@@ -1,0 +1,12 @@
+.cv {
+    border: 1px solid black;
+}
+.tmb {
+    border: 1px solid black;
+}
+.success {
+    color: #0FF;
+}
+.value {
+    margin-left: 20px;
+}
