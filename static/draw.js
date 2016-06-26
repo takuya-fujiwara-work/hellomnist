@@ -14,9 +14,6 @@ window.addEventListener("load", function(){
     can.addEventListener("mouseup", drawEnd, false);
     can.addEventListener("mouseout", drawEnd, false);
     if(window.TouchEvent){
-        can.addEventListener("touchstart", preventScroll);
-        can.addEventListener("touchmove", preventScroll);
-        can.addEventListener("touchend", preventScroll);
         can.addEventListener("touchstart", drawTouchStart);
         can.addEventListener("touchmove", drawTouch);
         can.addEventListener("touchend", drawEnd);
@@ -31,7 +28,7 @@ function clear(){
 }
 
 function preventScroll(e){
-    e.preventDefault();
+    
 }
 
 function drawStart(e){
@@ -46,6 +43,7 @@ function drawStart(e){
 }
 
 function drawTouchStart(e){
+    e.preventDefault();
     if(timeoutId !== null){
         clearTimeout(timeoutId);
         timeoutId = null;
@@ -75,6 +73,7 @@ function draw(e){
 }
 
 function drawTouch(e){
+    e.preventDefault();
     if (!drawFlag) return;
     var rect = e.target.getBoundingClientRect();
     var x = e.touches[0].clientX - rect.left;
