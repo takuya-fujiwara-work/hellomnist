@@ -27,7 +27,7 @@ function clear(){
     ctx.fillRect(0,0,can.width,can.height);
 }
 
-function drawStart(){
+function drawStart(e){
     if(timeoutId !== null){
         clearTimeout(timeoutId);
         timeoutId = null;
