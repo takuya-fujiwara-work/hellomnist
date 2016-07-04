@@ -137,3 +137,42 @@ function convBinary(colorImg){
     }
     return array;
 }
+
+
+function post2() {
+    var org = document.getElementById("canvas2");
+    var thm = document.getElementById("cantmb");
+    var ctx = thm.getContext('2d');
+    var img = new Image();
+    img.onload = function(event){
+        ctx.drawImage(this, 0, 0, this.width, this.height, 0, 0, 56, 56);
+        var cArray = ctx.getImageData(0, 0, 56, 56).data;
+        var bArray = convBinary(cArray);
+        
+        $.ajax({
+            url: '/emotionapi',
+            method: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(bArray),
+            success: (data) => {
+                $('#result').text(data.result);
+            }
+        });
+    }
+    img.src = org.toDataURL();
+}
+
+function convBinary2(colorImg){
+    var array =[];
+    for (var i = 0; i < 56; i++){
+        for (var j = 0; j < 56; j++){
+            var idx = (i * 56 + j) * 4;
+            array[i*56+j] = (255 - Math.floor(
+                colorImg[idx+0] * 0.298912 + 
+                colorImg[idx+1] * 0.586611 + 
+                colorImg[idx+2] * 0.114478)) / 255.0;
+        }
+    }
+    return array;
+}

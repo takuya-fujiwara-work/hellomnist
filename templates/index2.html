@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>This is sample page.</title>
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='main.css')}}">
+<script type="text/javascript" src="{{url_for('static', filename='draw.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename='jquery.min.js')}}"></script>
+</head>
+<body>
+    <div>Please draw a digit.</div>
+    <canvas class="cv" id="canvas2" width="448" height="448">
+    このブラウザはCanvasに対応していません。
+    </canvas>
+    <div>
+        <input type="file" name="image" id="uploadFile">
+<script>
+$("#uploadFile").change(function() {
+
+    var file = this.files[0];
+    if (!file.type.match(/^image\/(png|jpeg|gif)$/)) return;
+
+    var image = new Image();
+    var reader = new FileReader();
+
+    reader.onload = function(evt) {
+        image.onload = function() {
+
+
+            $("#canvas2").attr("width",image.width);   
+            $("#canvas2").attr("height",image.height);
+
+
+            var canvas = $("#canvas2");
+            var ctx = canvas[0].getContext("2d");       
+            ctx.drawImage(image, 0, 0); //canvasに画像を転写
+
+            post2();
+        }
+
+        image.src = evt.target.result;
+    }
+    reader.readAsDataURL(file);
+    
+});
+</script>
+    </div>
+    <hr>
+    <div>
+        <p>input:</p>
+        <canvas class="tmb value" id="cantmb"  width="56" height="56"></canvas>
+    </div>
+    <div>
+        <p>recognition result:</p>
+        <div class="value" id="result"></div>
+    </div>
+</body>
+</html>

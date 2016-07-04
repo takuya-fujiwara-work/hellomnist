@@ -90,6 +90,32 @@ def recognize_api():
 
     return json.dumps(result)
 
+@app.route('/emotion')
+def emotion_recognition():
+	return render_template('index2.html')
+
+@app.route('/emotionapi',methods=['POST'])
+def emotion_api():
+    if request.headers['Content-Type'] != 'application/json':
+        print(request.headers['Content-Type'])
+        return flask.jsonify(res='error'), 400
+
+    import random
+
+    emotion = ""
+    rand = random.randint(0,1)
+    print rand
+    if rand == 0:
+        emotion = "cry"
+    else:
+        emotion = "smile"
+
+    result = {
+        "result": emotion
+    }
+
+    return json.dumps(result)
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0')
